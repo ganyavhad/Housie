@@ -1,0 +1,23 @@
+<div>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link Active" (click)="select('Create')">Create Room</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="select('Join')">Join Room</a>
+    </li>
+  </ul>
+</div>
+<div>
+  <div *ngIf="type == 'Create'">
+    <button class="btn btn-primary" *ngIf="!roomCreated" (click)="createRoom()">Create Room</button>
+    <button class="btn btn-primary" *ngIf="roomCreated" (click)="startGame(roomData)">Start Game</button>
+  </div>
+  <div *ngIf="type == 'Join'">
+    <div *ngIf="!roomJoined">
+      <input [(ngModel)]="roomId" type="text">
+      <button class="btn btn-primary" (click)="joinRoom(roomId)">Join Room</button>
+    </div>
+    <label for="" *ngIf="roomJoined">Game will be start soon</label>
+  </div>
+</div>

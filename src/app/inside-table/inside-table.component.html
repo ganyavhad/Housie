@@ -1,0 +1,53 @@
+<div>
+  <div class="row justify-content-center">
+    <table class="table table-bordered draw-table">
+      <tbody>
+        <tr *ngFor="let num of draw">
+          <td [ngClass]="{'h-col-selected': n.status=='Closed','h-col-empty':n.status == 'Open'}" *ngFor="let n of num">
+            {{n.number==0?"":n.number}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <!-- <div class="col-sm-3">
+
+      </div> -->
+    <div class="justify-content-center col-sm-8">
+      <table class="table table-bordered h-table">
+        <tbody>
+          <tr>
+            <td
+              [ngClass]="{'h-col': n.number!=0 && n.status=='Pending','h-col-selected': n.status=='Selected','h-col-empty':n.number==0}"
+              *ngFor="let n of ticket.firstLine">
+              <label (click)="selectNumber('firstLine',n.number)">{{n.number==0?"":n.number}}</label>
+            </td>
+          </tr>
+          <tr>
+            <td
+              [ngClass]="{'h-col': n.number!=0 && n.status=='Pending','h-col-selected': n.status=='Selected','h-col-empty':n.number==0}"
+              *ngFor="let n of ticket.secondLine">
+              <label (click)="selectNumber('secondLine',n.number)">{{n.number==0?"":n.number}}</label>
+            </td>
+          </tr>
+          <tr>
+            <td
+              [ngClass]="{'h-col': n.number!=0 && n.status=='Pending','h-col-selected': n.status=='Selected','h-col-empty':n.number==0}"
+              *ngFor="let n of ticket.thirdLine">
+              <label (click)="selectNumber('thirdLine',n.number)">{{n.number==0?"":n.number}}</label></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-4 justify-content-right" *ngIf="drawNum">
+      <span>Last Number</span>
+      <strong class="draw-num ">
+        {{drawNum}}
+      </strong>
+      <button (click)="fullHousie()" class="btn btn-success">
+        Full Housie
+      </button>
+    </div>
+  </div>
+
+</div>
