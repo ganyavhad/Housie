@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: "http://192.168.100.8:3000"
+  serverUrl: "https://housie-ticket.herokuapp.com"
 };
 
 /*

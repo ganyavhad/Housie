@@ -69,7 +69,7 @@ export class InsideTableComponent implements OnInit {
     let userId = JSON.parse(user)._id
     this.socketService.socket.on('winner_declared_' + this.id, (data) => {
       if (data.winner != userId) {
-        this.router.navigate(['/inside-table', this.id])
+        this.router.navigate(['/winner', this.id])
       }
     })
     this.socketService.socket.on('draw_' + id, (num) => {
@@ -132,7 +132,7 @@ export class InsideTableComponent implements OnInit {
       (res: any) => {
         this.presentToast(res.message)
         if (res.errorNo == 0) {
-          this.router.navigate(['/inside-table', this.id])
+          this.router.navigate(['/winner', this.id])
         } else {
           console.log(res.message)
         }

@@ -36,6 +36,7 @@ export class TableComponent implements OnInit {
         this.roomCreated = true
         this.roomData = res
         this.socketService.socket.on('table_join_' + res.roomId, (player) => {
+          console.log(player)
           this.players.push(player)
         })
       },

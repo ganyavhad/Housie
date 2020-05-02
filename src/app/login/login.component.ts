@@ -11,6 +11,10 @@ export class LoginComponent implements OnInit {
   constructor(public apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
+    let user = localStorage.getItem('user')
+    if (user) {
+      this.router.navigate(['/table']);
+    }
   }
   guestLogin() {
     console.log("guestLogin")
