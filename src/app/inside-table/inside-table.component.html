@@ -25,7 +25,7 @@
       <ion-col class="cell-class"
         [ngClass]="{'h-col': n.number!=0 && n.status=='Pending','h-col-selected': n.status=='Selected','h-col-empty':n.number==0}"
         *ngFor="let n of ticket.firstLine">
-        <label (click)="selectNumber('firstLine',n.number)">
+        <label (click)="selectNumber('firstLine',n.number,n.status)">
           {{n.number==0?"":n.number}}
         </label>
       </ion-col>
@@ -34,7 +34,7 @@
       <ion-col class="cell-class"
         [ngClass]="{'h-col': n.number!=0 && n.status=='Pending','h-col-selected': n.status=='Selected','h-col-empty':n.number==0}"
         *ngFor="let n of ticket.secondLine">
-        <label (click)="selectNumber('secondLine',n.number)">
+        <label (click)="selectNumber('secondLine',n.number,n.status)">
           {{n.number==0?"":n.number}}
         </label>
       </ion-col>
@@ -43,7 +43,7 @@
       <ion-col class="cell-class"
         [ngClass]="{'h-col': n.number!=0 && n.status=='Pending','h-col-selected': n.status=='Selected','h-col-empty':n.number==0}"
         *ngFor="let n of ticket.thirdLine">
-        <label (click)="selectNumber('thirdLine',n.number)">
+        <label (click)="selectNumber('thirdLine',n.number,n.status)">
           {{n.number==0?"":n.number}}
         </label>
       </ion-col>

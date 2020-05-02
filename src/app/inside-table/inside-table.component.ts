@@ -87,15 +87,18 @@ export class InsideTableComponent implements OnInit {
       }
     );
   }
-  selectNumber(line, number) {
-    console.log(line, number)
-    this.apiService.selectNumber({ _id: this.tiketId, line: line, number: number }).subscribe(
+  selectNumber(line, number, status) {
+    console.log(line, number, status)
+    let numStatus = status == 'Selected' ? 'Closed' : 'Selected'
+    this.apiService.selectNumber({
+      _id: this.tiketId, line: line, number: number, status: numStatus
+    }).subscribe(
       (res: any) => {
         let index = this.ticket[line].findIndex((n) => {
           return number == n.number;
         });
         if (index !== -1) {
-          this.ticket[line][index].status = 'Selected';
+          this.ticket[line][index].status = numStatus;
           return;
         }
         this.ticket[line]
