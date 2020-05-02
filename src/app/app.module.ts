@@ -17,9 +17,10 @@ import { LoginComponent } from './login/login.component';
 import { InsideTableComponent } from './inside-table/inside-table.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { WinnerComponent } from './winner/winner.component';
 
 @NgModule({
-  declarations: [AppComponent, TableComponent, LoginComponent, InsideTableComponent],
+  declarations: [AppComponent, TableComponent, LoginComponent, InsideTableComponent, WinnerComponent],
   entryComponents: [],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule, FormsModule],
   providers: [

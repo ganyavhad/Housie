@@ -13,6 +13,7 @@ import { ToastController } from '@ionic/angular';
 export class InsideTableComponent implements OnInit {
   numbers = [];
   draw = [];
+  id = <any>Number
   ticket = <any>{};
   drawNum = <any>Number;
   tiketId: Number
@@ -57,13 +58,20 @@ export class InsideTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    let id = this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
+    let id = this.id
     this.drawNum = 0
-    console.log(id)
     this.getTicket(id);
     this.getRoom(id)
     this.generateNumArr();
     this.socketService.setupSocketConnection();
+    let user = localStorage.getItem('user');
+    let userId = JSON.parse(user)._id
+    this.socketService.socket.on('winner_declared_' + this.id, (data) => {
+      if (data.winner != userId) {
+        this.router.navigate(['/inside-table', this.id])
+      }
+    })
     this.socketService.socket.on('draw_' + id, (num) => {
       this.drawNum = num;
       for (let i = 0; i < 9; i++) {
@@ -124,7 +132,7 @@ export class InsideTableComponent implements OnInit {
       (res: any) => {
         this.presentToast(res.message)
         if (res.errorNo == 0) {
-          console.log(res.message)
+          this.router.navigate(['/inside-table', this.id])
         } else {
           console.log(res.message)
         }

@@ -6,6 +6,7 @@ import { InsideTableComponent } from './inside-table/inside-table.component';
 import {
   AuthGuardService as AuthGuard
 } from "./auth-gaurd.service"
+import { WinnerComponent } from './winner/winner.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
   {
     path: 'inside-table/:id',
     component: InsideTableComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'winner/:id',
+    component: WinnerComponent,
     canActivate: [AuthGuard]
   },
   { path: '', redirectTo: '/table', pathMatch: 'full' }
