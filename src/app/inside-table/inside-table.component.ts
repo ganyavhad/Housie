@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { SocketioService } from '../socketio.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-inside-table',
@@ -42,8 +43,18 @@ export class InsideTableComponent implements OnInit {
     public apiService: ApiService,
     private socketService: SocketioService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public toastController: ToastController
   ) { }
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: `<span style="">${message}</span>`,
+      position: 'top',
+      duration: 1000,
+      animated: true
+    });
+    toast.present();
+  }
 
   ngOnInit() {
     let id = this.route.snapshot.paramMap.get('id');
@@ -111,9 +122,15 @@ export class InsideTableComponent implements OnInit {
   fullHousie() {
     this.apiService.fullHousie({ _id: this.tiketId, roomId: this.roomData._id }).subscribe(
       (res: any) => {
-        console.log("Result claim")
+        this.presentToast(res.message)
+        if (res.errorNo == 0) {
+          console.log(res.message)
+        } else {
+          console.log(res.message)
+        }
       },
       (err) => {
+        this.presentToast("Something went wrong")
         console.log("error", err);
       }
     );
