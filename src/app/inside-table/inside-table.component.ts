@@ -13,7 +13,7 @@ export class InsideTableComponent implements OnInit {
   numbers = [];
   draw = [];
   ticket = <any>{};
-  drawNum = Number;
+  drawNum = <any>Number;
   tiketId: Number
   roomData = <any>{}
   getTicket(id) {
@@ -47,6 +47,7 @@ export class InsideTableComponent implements OnInit {
 
   ngOnInit() {
     let id = this.route.snapshot.paramMap.get('id');
+    this.drawNum = 0
     console.log(id)
     this.getTicket(id);
     this.getRoom(id)
