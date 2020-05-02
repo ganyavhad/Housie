@@ -1,5 +1,7 @@
 {
   "name": "housie-app",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
