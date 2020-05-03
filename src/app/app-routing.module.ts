@@ -10,10 +10,6 @@ import { WinnerComponent } from './winner/winner.component';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
-  },
-  {
     path: 'login',
     component: LoginComponent,
     pathMatch: 'full'

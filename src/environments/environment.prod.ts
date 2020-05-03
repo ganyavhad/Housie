@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  serverUrl: "https://housie-ticket.herokuapp.com"
+  serverUrl: "http://localhost:3000"
+
+  // serverUrl: "https://housie-ticket.herokuapp.com"
 };

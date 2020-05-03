@@ -17,6 +17,9 @@ export class ApiService {
   guestLogin() {
     return this.httpClient.post(environment.serverUrl + '/player/guestLogin', {});
   }
+  facebookLogin(data) {
+    return this.httpClient.post(environment.serverUrl + '/player/facebookLogin', data);
+  }
   createRoom() {
     let user = localStorage.getItem('user');
     let userId = JSON.parse(user)._id
@@ -42,3 +45,4 @@ export class ApiService {
     return this.httpClient.post(environment.serverUrl + '/ticket/fullHousie', data);
   }
 }
+

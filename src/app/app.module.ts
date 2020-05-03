@@ -18,6 +18,8 @@ import { InsideTableComponent } from './inside-table/inside-table.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WinnerComponent } from './winner/winner.component';
+import { Facebook } from '@ionic-native/facebook/ngx';
+
 
 @NgModule({
   declarations: [AppComponent, TableComponent, LoginComponent, InsideTableComponent, WinnerComponent],
@@ -27,7 +29,8 @@ import { WinnerComponent } from './winner/winner.component';
     StatusBar,
     SplashScreen,
     SocketioService, AuthService, AuthGuardService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Facebook
   ],
   bootstrap: [AppComponent]
 })

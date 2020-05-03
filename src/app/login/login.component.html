@@ -1,3 +1,52 @@
-<div class="row justify-content-center">
-  <button class="btn btn-primary" (click)="guestLogin()">Login as Guest </button>
-</div>
+<ion-header class="head">
+  <ion-title>
+    <h1 class="text-center title">Housie</h1>
+  </ion-title>
+</ion-header>
+<ion-content>
+  <ion-grid class="ticket">
+    <ion-row>
+      <ion-col class="cell-class"
+        [ngClass]="{'h-col': n.number!=0 && n.status=='Pending','h-col-selected': n.status=='Selected','h-col-empty':n.number==0}"
+        *ngFor="let n of ticket.firstLine">
+        <label>
+          {{n.number==0?"":n.number}}
+        </label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="cell-class"
+        [ngClass]="{'h-col': n.number!=0 && n.status=='Pending','h-col-selected': n.status=='Selected','h-col-empty':n.number==0}"
+        *ngFor="let n of ticket.secondLine">
+        <label>
+          {{n.number==0?"":n.number}}
+        </label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="cell-class"
+        [ngClass]="{'h-col': n.number!=0 && n.status=='Pending','h-col-selected': n.status=='Selected','h-col-empty':n.number==0}"
+        *ngFor="let n of ticket.thirdLine">
+        <label>
+          {{n.number==0?"":n.number}}
+        </label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="guestLogin">
+    <ion-row>
+      <ion-button color="danger" (click)="guestLogin()">
+        Login as a Guest User
+      </ion-button>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="fbLogin">
+    <ion-row>
+      <ion-button expand="full" color="primary" (click)="fbLogin()">
+        <ion-icon name="logo-facebook"></ion-icon>
+        Login with Facebook
+      </ion-button>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
