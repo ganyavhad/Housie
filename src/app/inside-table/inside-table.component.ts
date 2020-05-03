@@ -13,15 +13,17 @@ import { ToastController } from '@ionic/angular';
 export class InsideTableComponent implements OnInit {
   numbers = [];
   draw = [];
+  timer = <any>Number;
   id = <any>Number
   ticket = <any>{};
   drawNum = <any>Number;
   tiketId: Number
   roomData = <any>{}
+  interVal = <any>{}
+
   getTicket(id) {
     this.apiService.getTicket(id).subscribe(
       (res: any) => {
-        console.log(res);
         this.tiketId = res._id
         this.ticket = res.ticket;
       },
@@ -60,6 +62,7 @@ export class InsideTableComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     let id = this.id
+    this.timer = 5
     this.drawNum = 0
     this.getTicket(id);
     this.getRoom(id)
@@ -67,12 +70,16 @@ export class InsideTableComponent implements OnInit {
     this.socketService.setupSocketConnection();
     let user = localStorage.getItem('user');
     let userId = JSON.parse(user)._id
+    console.log('winner_declared_' + this.id)
     this.socketService.socket.on('winner_declared_' + this.id, (data) => {
+      console.log("Einner called", data, userId)
       if (data.winner != userId) {
+        this.clearTimer();
         this.router.navigate(['/winner', this.id])
       }
     })
     this.socketService.socket.on('draw_' + id, (num) => {
+      this.timer = 5;
       this.drawNum = num;
       for (let i = 0; i < 9; i++) {
         let index = this.draw[i].findIndex((n) => {
@@ -85,11 +92,24 @@ export class InsideTableComponent implements OnInit {
       }
     });
   }
+  setTimer() {
+    this.interVal = setInterval(() => {
+      this.timer--
+      if (this.timer < 0) {
+        this.clearTimer()
+      }
+    }, 1000)
+  }
+  clearTimer() {
+    this.timer = 0
+    clearInterval(this.interVal)
+  }
   getRoom(roomId) {
     this.apiService.getRoom(roomId).subscribe(
       (res: any) => {
         this.roomData = res
         this.drawNum = res.draw[res.draw.length - 1]
+        this.setTimer()
         for (let i = 0; i < 9; i++) {
           for (let j = 0; j < 10; j++) {
             let index = res.draw.findIndex((n) => {
@@ -107,7 +127,6 @@ export class InsideTableComponent implements OnInit {
     );
   }
   selectNumber(line, number, status) {
-    console.log(line, number, status)
     let numStatus = status == 'Selected' ? 'Closed' : 'Selected'
     this.apiService.selectNumber({
       _id: this.tiketId, line: line, number: number, status: numStatus
@@ -132,6 +151,7 @@ export class InsideTableComponent implements OnInit {
       (res: any) => {
         this.presentToast(res.message)
         if (res.errorNo == 0) {
+
           this.router.navigate(['/winner', this.id])
         } else {
           console.log(res.message)
