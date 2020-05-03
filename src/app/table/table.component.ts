@@ -15,15 +15,14 @@ export class TableComponent implements OnInit {
   roomCreated: Boolean
   roomId: Number
   roomJoined: Boolean
-  players: []
-  roomData: {}
-  player: {}
+  players = []
+  roomData = {}
+  player = {}
   constructor(
     public apiService: ApiService, private router: Router, private socketService: SocketioService) { }
 
   ngOnInit() {
     this.players = []
-
     this.player = JSON.parse(localStorage.getItem('user'));
     this.type = 'Create'
     this.roomJoined = false
