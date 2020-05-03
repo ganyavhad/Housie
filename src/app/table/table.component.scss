@@ -1,3 +1,28 @@
 li {
     cursor: pointer
 }
+
+.head {
+    background: red;
+}
+
+.active {
+    color: red;
+}
+
+.profile {
+    margin-block-end: 10px;
+    margin-inline-end: 70px;
+}
+
+h1 {
+    display: inline-block;
+}
+
+.joined {
+    margin-inline-start: 20px;
+}
+
+form {
+    margin-top: 50px;
+}

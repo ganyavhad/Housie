@@ -15,12 +15,16 @@ export class TableComponent implements OnInit {
   roomCreated: Boolean
   roomId: Number
   roomJoined: Boolean
-  players = []
+  players: []
   roomData: {}
+  player: {}
   constructor(
     public apiService: ApiService, private router: Router, private socketService: SocketioService) { }
 
   ngOnInit() {
+    this.players = []
+
+    this.player = JSON.parse(localStorage.getItem('user'));
     this.type = 'Create'
     this.roomJoined = false
     this.socketService.setupSocketConnection();
@@ -30,14 +34,14 @@ export class TableComponent implements OnInit {
     this.roomCreated = false
     console.log(type)
   }
-  createRoom() {
-    this.apiService.createRoom().subscribe(
+  createRoom(max) {
+    this.apiService.createRoom(max).subscribe(
       (res: any) => {
         this.roomCreated = true
         this.roomData = res
-        this.socketService.socket.on('table_join_' + res.roomId, (player) => {
-          console.log(player)
-          this.players.push(player)
+        this.socketService.socket.on('table_join_' + res.roomId, (member) => {
+          console.log(member)
+          this.players.push(member)
         })
       },
       (err) => {

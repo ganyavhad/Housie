@@ -20,10 +20,10 @@ export class ApiService {
   facebookLogin(data) {
     return this.httpClient.post(environment.serverUrl + '/player/facebookLogin', data);
   }
-  createRoom() {
+  createRoom(max) {
     let user = localStorage.getItem('user');
     let userId = JSON.parse(user)._id
-    return this.httpClient.post(environment.serverUrl + '/room/createRoom', { _id: userId, maxPlayer: 2 });
+    return this.httpClient.post(environment.serverUrl + '/room/createRoom', { _id: userId, maxPlayer: max });
   }
   startGame(data) {
     let user = localStorage.getItem('user');
