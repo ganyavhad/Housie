@@ -20,6 +20,10 @@ export class InsideTableComponent implements OnInit {
   tiketId: Number
   roomData = <any>{}
   interVal = <any>{}
+  isJuldiFive: Boolean
+  isFirstLine: Boolean
+  isSecondLine: Boolean
+  isThirdLine: Boolean
 
   getTicket(id) {
     this.apiService.getTicket(id).subscribe(
@@ -62,6 +66,10 @@ export class InsideTableComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     let id = this.id
+    this.isJuldiFive = false
+    this.isFirstLine = false
+    this.isSecondLine = false
+    this.isThirdLine = false
     this.timer = 5
     this.drawNum = 0
     this.getTicket(id);
@@ -70,12 +78,36 @@ export class InsideTableComponent implements OnInit {
     this.socketService.setupSocketConnection();
     let user = localStorage.getItem('user');
     let userId = JSON.parse(user)._id
-    console.log('winner_declared_' + this.id)
+
     this.socketService.socket.on('winner_declared_' + this.id, (data) => {
       console.log("Einner called", data, userId)
-      if (data.winner != userId) {
+      if (data._id != userId) {
         this.clearTimer();
         this.router.navigate(['/winner', this.id])
+      }
+    })
+    this.socketService.socket.on('juldi_five_' + this.id, (data) => {
+      if (data.winner._id != userId) {
+        this.isJuldiFive = true
+        this.presentToast(`Juldi five win by ${data.winner.name}`)
+      }
+    })
+    this.socketService.socket.on('first_line_' + this.id, (data) => {
+      if (data.winner._id != userId) {
+        this.isFirstLine = true
+        this.presentToast(`First line win by ${data.winner.name}`)
+      }
+    })
+    this.socketService.socket.on('second_line_' + this.id, (data) => {
+      if (data.winner._id != userId) {
+        this.isSecondLine = true
+        this.presentToast(`Second line win by ${data.winner.name}`)
+      }
+    })
+    this.socketService.socket.on('third_line_' + this.id, (data) => {
+      if (data.winner._id != userId) {
+        this.isThirdLine = true
+        this.presentToast(`Third line win by ${data.winner.name}`)
       }
     })
     this.socketService.socket.on('draw_' + id, (num) => {
@@ -95,7 +127,7 @@ export class InsideTableComponent implements OnInit {
   setTimer() {
     this.interVal = setInterval(() => {
       this.timer--
-      if (this.timer < 0) {
+      if (this.timer < -2) {
         this.clearTimer()
       }
     }, 1000)
@@ -165,12 +197,12 @@ export class InsideTableComponent implements OnInit {
   juldiFive() {
     this.apiService.juldiFive({ _id: this.tiketId, roomId: this.roomData._id }).subscribe(
       (res: any) => {
-        this.presentToast(res.message)
         if (res.errorNo == 0) {
-          this.router.navigate(['/juldiFive', this.id])
+          this.isJuldiFive = true
         } else {
           console.log(res.message)
         }
+        this.presentToast(res.message)
       },
       (err) => {
         this.presentToast("Something went wrong")
@@ -181,12 +213,12 @@ export class InsideTableComponent implements OnInit {
   firstLine() {
     this.apiService.firstLine({ _id: this.tiketId, roomId: this.roomData._id }).subscribe(
       (res: any) => {
-        this.presentToast(res.message)
         if (res.errorNo == 0) {
-          this.router.navigate(['/firstLine', this.id])
+          this.isFirstLine = true
         } else {
           console.log(res.message)
         }
+        this.presentToast(res.message)
       },
       (err) => {
         this.presentToast("Something went wrong")
@@ -197,12 +229,12 @@ export class InsideTableComponent implements OnInit {
   secondLine() {
     this.apiService.secondLine({ _id: this.tiketId, roomId: this.roomData._id }).subscribe(
       (res: any) => {
-        this.presentToast(res.message)
         if (res.errorNo == 0) {
-          this.router.navigate(['/secondLine', this.id])
+          this.isSecondLine = true
         } else {
           console.log(res.message)
         }
+        this.presentToast(res.message)
       },
       (err) => {
         this.presentToast("Something went wrong")
@@ -213,12 +245,12 @@ export class InsideTableComponent implements OnInit {
   thirdLine() {
     this.apiService.thirdLine({ _id: this.tiketId, roomId: this.roomData._id }).subscribe(
       (res: any) => {
-        this.presentToast(res.message)
         if (res.errorNo == 0) {
-          this.router.navigate(['/thirdLine', this.id])
+          this.isThirdLine = true
         } else {
           console.log(res.message)
         }
+        this.presentToast(res.message)
       },
       (err) => {
         this.presentToast("Something went wrong")
