@@ -151,8 +151,71 @@ export class InsideTableComponent implements OnInit {
       (res: any) => {
         this.presentToast(res.message)
         if (res.errorNo == 0) {
-
           this.router.navigate(['/winner', this.id])
+        } else {
+          console.log(res.message)
+        }
+      },
+      (err) => {
+        this.presentToast("Something went wrong")
+        console.log("error", err);
+      }
+    );
+  }
+  juldiFive() {
+    this.apiService.juldiFive({ _id: this.tiketId, roomId: this.roomData._id }).subscribe(
+      (res: any) => {
+        this.presentToast(res.message)
+        if (res.errorNo == 0) {
+          this.router.navigate(['/juldiFive', this.id])
+        } else {
+          console.log(res.message)
+        }
+      },
+      (err) => {
+        this.presentToast("Something went wrong")
+        console.log("error", err);
+      }
+    );
+  }
+  firstLine() {
+    this.apiService.firstLine({ _id: this.tiketId, roomId: this.roomData._id }).subscribe(
+      (res: any) => {
+        this.presentToast(res.message)
+        if (res.errorNo == 0) {
+          this.router.navigate(['/firstLine', this.id])
+        } else {
+          console.log(res.message)
+        }
+      },
+      (err) => {
+        this.presentToast("Something went wrong")
+        console.log("error", err);
+      }
+    );
+  }
+  secondLine() {
+    this.apiService.secondLine({ _id: this.tiketId, roomId: this.roomData._id }).subscribe(
+      (res: any) => {
+        this.presentToast(res.message)
+        if (res.errorNo == 0) {
+          this.router.navigate(['/secondLine', this.id])
+        } else {
+          console.log(res.message)
+        }
+      },
+      (err) => {
+        this.presentToast("Something went wrong")
+        console.log("error", err);
+      }
+    );
+  }
+  thirdLine() {
+    this.apiService.thirdLine({ _id: this.tiketId, roomId: this.roomData._id }).subscribe(
+      (res: any) => {
+        this.presentToast(res.message)
+        if (res.errorNo == 0) {
+          this.router.navigate(['/thirdLine', this.id])
         } else {
           console.log(res.message)
         }

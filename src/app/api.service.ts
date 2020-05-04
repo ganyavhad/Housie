@@ -44,5 +44,17 @@ export class ApiService {
   fullHousie(data) {
     return this.httpClient.post(environment.serverUrl + '/ticket/fullHousie', data);
   }
+  juldiFive(data) {
+    return this.httpClient.post(environment.serverUrl + '/ticket/juldiFive', data);
+  }
+  firstLine(data) {
+    return this.httpClient.post(environment.serverUrl + '/ticket/firstLine', data);
+  }
+  secondLine(data) {
+    return this.httpClient.post(environment.serverUrl + '/ticket/secondLine', data);
+  }
+  thirdLine(data) {
+    return this.httpClient.post(environment.serverUrl + '/ticket/thirdLine', data);
+  }
 }
 
