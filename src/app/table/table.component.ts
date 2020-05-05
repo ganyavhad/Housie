@@ -3,6 +3,7 @@ import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { SocketioService } from '../socketio.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-table',
@@ -19,8 +20,18 @@ export class TableComponent implements OnInit {
   roomData = {}
   player = {}
   constructor(
-    public apiService: ApiService, private router: Router, private socketService: SocketioService) { }
+    public apiService: ApiService, private router: Router, private socketService: SocketioService, public toastController: ToastController
+  ) { }
 
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: `<span style="">${message}</span>`,
+      position: 'top',
+      duration: 1000,
+      animated: true
+    });
+    toast.present();
+  }
   ngOnInit() {
     this.players = []
     this.player = JSON.parse(localStorage.getItem('user'));
@@ -44,7 +55,9 @@ export class TableComponent implements OnInit {
         })
       },
       (err) => {
+        this.presentToast(err);
         console.log(err);
+
       }
     );
   }
@@ -55,6 +68,7 @@ export class TableComponent implements OnInit {
         this.router.navigate(['/inside-table', roomData.roomId])
       },
       (err) => {
+        this.presentToast(err);
         console.log("error", err);
       }
     );
@@ -69,6 +83,7 @@ export class TableComponent implements OnInit {
         })
       },
       (err) => {
+        this.presentToast(err);
         console.log(err);
       }
     );
