@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  player = <any>{}
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -22,6 +23,10 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.player = JSON.parse(localStorage.getItem('user'));
+      if (this.player) {
+        this.player.firstName = this.player.name.split(" ")[0];
+      }
     });
   }
 }
