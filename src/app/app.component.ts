@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { ApiService } from './api.service';
+import { SocketioService } from './socketio.service';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +13,13 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent {
   player = <any>{}
+  balance = <any>Number
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    public apiService: ApiService,
+    private socketService: SocketioService
   ) {
     this.initializeApp();
   }
@@ -25,8 +30,22 @@ export class AppComponent {
       this.splashScreen.hide();
       this.player = JSON.parse(localStorage.getItem('user'));
       if (this.player) {
-        this.player.firstName = this.player.name.split(" ")[0];
+        this.socketService.setupSocketConnection();
+        this.socketService.socket.on('balance' + this.player._id, (playerData) => {
+          this.balance = playerData.balance
+        })
+        this.getPlayerDetail({ _id: this.player._id })
       }
     });
+  }
+  getPlayerDetail(data) {
+    this.apiService.getPlayerDetail(data).subscribe(
+      (res: any) => {
+        this.balance = res.balance
+      },
+      (err) => {
+        console.log("error", err);
+      }
+    );
   }
 }

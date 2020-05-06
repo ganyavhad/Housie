@@ -56,5 +56,8 @@ export class ApiService {
   thirdLine(data) {
     return this.httpClient.post(environment.serverUrl + '/ticket/thirdLine', data);
   }
+  getPlayerDetail(data) {
+    return this.httpClient.get(environment.serverUrl + '/player/getPlayerDetail/:' + data._id);
+  }
 }
 
