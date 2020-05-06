@@ -55,7 +55,7 @@ export class TableComponent implements OnInit {
         })
       },
       (err) => {
-        this.presentToast(err);
+        this.presentToast(err.error);
         console.log(err);
 
       }
@@ -68,7 +68,7 @@ export class TableComponent implements OnInit {
         this.router.navigate(['/inside-table', roomData.roomId])
       },
       (err) => {
-        this.presentToast(err);
+        this.presentToast(err.error);
         console.log("error", err);
       }
     );
@@ -83,7 +83,7 @@ export class TableComponent implements OnInit {
         })
       },
       (err) => {
-        this.presentToast(err);
+        this.presentToast(err.error.message);
         console.log(err);
       }
     );

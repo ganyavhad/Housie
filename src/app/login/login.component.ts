@@ -185,7 +185,7 @@ export class LoginComponent implements OnInit {
     );
   }
   getUserDetail(userid: any) {
-    this.fb.api('/' + userid + '/?fields=id,email,name,picture', ['public_profile'])
+    this.fb.api('/' + userid + '/?fields=id,email,name,picture,gender', ['public_profile'])
       .then(res => {
         this.saveUser({ id: res.id, name: res.name, profilePic: res.picture.data.url })
       })
@@ -194,7 +194,7 @@ export class LoginComponent implements OnInit {
       });
   }
   fbLogin() {
-    this.fb.login(['public_profile', 'user_friends', 'email'])
+    this.fb.login(['public_profile', 'user_friends', 'email', 'gender'])
       .then((res: FacebookLoginResponse) => {
         if (res.status === 'connected') {
           this.isLoggedIn = true;

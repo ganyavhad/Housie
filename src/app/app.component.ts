@@ -31,7 +31,8 @@ export class AppComponent {
       this.player = JSON.parse(localStorage.getItem('user'));
       if (this.player) {
         this.socketService.setupSocketConnection();
-        this.socketService.socket.on('balance' + this.player._id, (playerData) => {
+        this.socketService.socket.on('balance_' + this.player._id, (playerData) => {
+          console.log("playerData socket", playerData)
           this.balance = playerData.balance
         })
         this.getPlayerDetail({ _id: this.player._id })
