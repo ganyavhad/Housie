@@ -1,5 +1,35 @@
-<ion-grid>
+<!-- <ion-grid>
   <ion-button [routerLink]="['/table']">
     Go Home
   </ion-button>
-</ion-grid>
+</ion-grid> -->
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size=4>
+        {{roomData.roomId}}
+      </ion-col>
+      <ion-col size=3>
+        Players:{{roomData.totalPlayers}}
+      </ion-col>
+      <ion-col size=5>
+        Pot Amount:<span class="text-success">{{roomData.potAmount}}</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list>
+    <ion-item *ngFor="let player of roomData.players">
+      <ion-col size=2>
+        <!-- <img class="profile" src={{player.profilePic}}> -->
+        <img *ngIf="player.profilePic" src={{player.profilePic}}>
+        <img *ngIf="!player.profilePic" src='../assets/img/avatar.svg'>
+      </ion-col>
+      <ion-col size=7>
+        {{player.name}}
+      </ion-col>
+      <ion-col size=3>
+        <span class="text-success">{{player.winAmt}}</span>
+      </ion-col>
+    </ion-item>
+  </ion-list>
+</ion-content>

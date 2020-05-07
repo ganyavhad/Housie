@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-winner',
@@ -7,12 +8,24 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./winner.component.scss'],
 })
 export class WinnerComponent implements OnInit {
+  roomData = <any>{};
 
-  constructor(private route: ActivatedRoute,
+  constructor(public apiService: ApiService, private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
     let id = this.route.snapshot.paramMap.get('id');
+    this.getRoomForWinner(id)
   }
-
+  getRoomForWinner(roomId) {
+    this.apiService.getRoomForWinner(roomId).subscribe(
+      (res: any) => {
+        console.log(res)
+        this.roomData = res
+      },
+      (err) => {
+        console.log("error", err);
+      }
+    );
+  }
 }

@@ -38,6 +38,9 @@ export class ApiService {
   getRoom(roomId) {
     return this.httpClient.get(environment.serverUrl + '/room/getRoom/' + roomId);
   }
+  getRoomForWinner(roomId) {
+    return this.httpClient.get(environment.serverUrl + '/room/getRoomForWinner/' + roomId);
+  }
   selectNumber(data) {
     return this.httpClient.post(environment.serverUrl + '/ticket/selectNumber', data);
   }

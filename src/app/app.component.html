@@ -6,7 +6,8 @@
         <ion-row>
           <ion-col size="2">
             <div class="text-left">
-              <img class="profile" src={{player.profilePic}}>
+              <img *ngIf="player.profilePic" class="profile" src={{player.profilePic}}>
+              <img *ngIf="!player.profilePic" class="profile" src='../assets/img/avatar.svg'>
             </div>
           </ion-col>
           <ion-col size="7">
@@ -16,7 +17,7 @@
           </ion-col>
           <ion-col size="3">
             <div class="text-right">
-              {{balance}} pts
+              <span class="text-success">{{balance}}</span> pts
             </div>
           </ion-col>
         </ion-row>
