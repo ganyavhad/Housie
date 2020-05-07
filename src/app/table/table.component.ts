@@ -41,7 +41,6 @@ export class TableComponent implements OnInit {
   }
   select(type) {
     this.type = type
-    this.roomCreated = false
     console.log(type)
   }
   createRoom(max) {
@@ -68,7 +67,7 @@ export class TableComponent implements OnInit {
         this.router.navigate(['/inside-table', roomData.roomId])
       },
       (err) => {
-        this.presentToast(err.error);
+        this.presentToast(err.error.message);
         console.log("error", err);
       }
     );

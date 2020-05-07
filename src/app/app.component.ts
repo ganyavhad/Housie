@@ -30,6 +30,7 @@ export class AppComponent {
       this.splashScreen.hide();
       this.player = JSON.parse(localStorage.getItem('user'));
       if (this.player) {
+        this.balance = this.player.balance
         this.socketService.setupSocketConnection();
         this.socketService.socket.on('balance_' + this.player._id, (playerData) => {
           console.log("playerData socket", playerData)
