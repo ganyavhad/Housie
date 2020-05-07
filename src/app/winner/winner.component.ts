@@ -9,18 +9,18 @@ import { ApiService } from '../api.service';
 })
 export class WinnerComponent implements OnInit {
   roomData = <any>{};
-
+  user = <any>{};
   constructor(public apiService: ApiService, private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
     let id = this.route.snapshot.paramMap.get('id');
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.getRoomForWinner(id)
   }
   getRoomForWinner(roomId) {
     this.apiService.getRoomForWinner(roomId).subscribe(
       (res: any) => {
-        console.log(res)
         this.roomData = res
       },
       (err) => {
