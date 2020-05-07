@@ -18,7 +18,7 @@ export class TableComponent implements OnInit {
   roomJoined: Boolean
   players = []
   roomData = {}
-  player = {}
+  player = <any>{}
   constructor(
     public apiService: ApiService, private router: Router, private socketService: SocketioService, public toastController: ToastController
   ) { }
@@ -35,6 +35,7 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     this.players = []
     this.player = JSON.parse(localStorage.getItem('user'));
+    this.players.push(this.player)
     this.type = 'Create'
     this.roomJoined = false
     this.socketService.setupSocketConnection();
@@ -56,7 +57,6 @@ export class TableComponent implements OnInit {
       (err) => {
         this.presentToast(err.error);
         console.log(err);
-
       }
     );
   }
@@ -76,8 +76,9 @@ export class TableComponent implements OnInit {
     this.apiService.joinRoom({ roomId: roomId }).subscribe(
       (res: any) => {
         this.roomJoined = true
+        this.players = res.players
+        this.roomData = res
         this.socketService.socket.on('game_start_' + roomId, (data) => {
-          let id = roomId;
           this.router.navigate(['/inside-table', roomId])
         })
       },
