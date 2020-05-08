@@ -1,98 +1,36 @@
-<ion-tab-bar slot="top">
-  <ion-tab-button [ngClass]="{active:type=='Create'}" (click)="select('Create')" tab="Create">
-    <ion-icon name="Create"></ion-icon>
-    <ion-label>Create Room</ion-label>
-  </ion-tab-button>
-  <ion-tab-button [ngClass]="{active:type=='Join'}" (click)="select('Join')" tab="Join">
-    <ion-icon name="person-circle"></ion-icon>
-    <ion-label>Join Room</ion-label>
-  </ion-tab-button>
-</ion-tab-bar>
-
 <ion-content>
-  <div *ngIf="type == 'Join'">
-    <form class="form" *ngIf="!roomJoined">
-      <ion-list lines="full" class="ion-no-margin ion-no-padding">
-        <ion-item>
-          <ion-input required type="number" [(ngModel)]="roomId" name="roomId" placeholder="Enter Room Id">
-          </ion-input>
-        </ion-item>
-      </ion-list>
-      <ion-button expand="block" (click)="joinRoom(roomId)">Join Room</ion-button>
-    </form>
-    <ion-list *ngIf="roomJoined" lines="full" class="ion-no-margin ion-no-padding">
-      <ion-item>
-        <div class="pull-left">
-          <strong><label>Room Id</label> : <span>{{roomData.roomId}}</span></strong>
-        </div>
-        <div class="joined">
-          <strong><label>Players Joined</label> : <span>{{players.length}}</span></strong>
-        </div>
-      </ion-item>
-      <ion-item *ngFor="let player of players">
-        {{player.name}}
-      </ion-item>
-      <strong><label>Game will be start soon</label></strong>
+  <ion-list lines="full" class="ion-no-margin ion-no-padding">
+    <ion-item>
+      <div class="pull-left">
+        <strong><label>Room Id</label> : <span>{{roomData.roomId}}</span></strong>
+      </div>
+      <div class="joined">
+        <strong><label>Players Joined</label> : <span>{{players.length}}</span></strong>
+      </div>
+    </ion-item>
+    <ion-item *ngFor="let player of players">
+      <ion-col size=2>
+        <!-- <img class="profile" src={{player.profilePic}}> -->
+        <img *ngIf="player.profilePic" src={{player.profilePic}}>
+        <img *ngIf="!player.profilePic" src='../assets/img/avatar.svg'>
+      </ion-col>
+      <ion-col size=9>
+        {{player.name}} <span *ngIf="user._id == player._id">(You)</span>
+      </ion-col>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="user._id != creator._id">
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      <strong *ngIf="roomData.gameStatus == 'BeforeStart'">{{creator.name}} will start Game</strong>
     </ion-list>
-
   </div>
-  <div *ngIf="type == 'Create'">
-    <form class="form" *ngIf="!roomCreated">
-      <ion-list lines="full" class="ion-no-margin ion-no-padding">
-        <ion-item>
-          <ion-input required type="number" [(ngModel)]="maxPlayer" name="maxPlayer" placeholder="Max players">
-          </ion-input>
-        </ion-item>
-      </ion-list>
-      <ion-button expand="block" (click)="createRoom(maxPlayer)">Create Room</ion-button>
-    </form>
-    <ion-list *ngIf="roomCreated" lines="full" class="ion-no-margin ion-no-padding">
-      <ion-item>
-        <div class="pull-left">
-          <strong><label>Room Id</label> : <span>{{roomData.roomId}}</span></strong>
-        </div>
-        <div class="joined">
-          <strong><label>Players Joined</label> : <span>{{players.length}}</span></strong>
-        </div>
-      </ion-item>
-      <ion-item *ngFor="let player of players">
-        {{player.name}}
-      </ion-item>
-    </ion-list>
-    <ion-button expand="block" *ngIf="roomCreated &&players && players.length>=1" (click)="startGame(roomData)">Start
+  <div *ngIf="user._id == creator._id">
+    <ion-button expand="block" *ngIf="players.length>=1 && roomData.gameStatus == 'BeforeStart'"
+      (click)="startGame(roomData)">Start
       Game
     </ion-button>
   </div>
+  <ion-button expand="block" [routerLink]="['/inside-table/', roomData.roomId]" routerDirection="forward"
+    *ngIf="roomData.gameStatus=='Start'">Go To The Game
+  </ion-button>
 </ion-content>
-
-
-<!-- <div>
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link Active" (click)="select('Create')">Create Room</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" (click)="select('Join')">Join Room</a>
-    </li>
-  </ul>
-</div>
-<div>
-  <div *ngIf="type == 'Create'">
-    <button class="btn btn-primary" *ngIf="!roomCreated" (click)="createRoom()">Create Room</button>
-    <div>
-      <span *ngIf="roomCreated">Room Id-{{roomData.roomId}}</span>
-      <span *ngFor="let player of players">
-        <br>
-        {{player.name}}
-      </span>
-    </div>
-    <button class="btn btn-primary" *ngIf="roomCreated" (click)="startGame(roomData)">Start Game</button>
-  </div>
-  <div *ngIf="type == 'Join'">
-    <div *ngIf="!roomJoined">
-      <input [(ngModel)]="roomId" type="text">
-      <button class="btn btn-primary" (click)="joinRoom(roomId)">Join Room</button>
-    </div>
-    <label for="" *ngIf="roomJoined">Game will be start soon</label>
-  </div>
-</div> -->

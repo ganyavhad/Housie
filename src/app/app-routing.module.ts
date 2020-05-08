@@ -7,6 +7,7 @@ import {
   AuthGuardService as AuthGuard
 } from "./auth-gaurd.service"
 import { WinnerComponent } from './winner/winner.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,13 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'table',
+    path: 'home',
+    component: HomeComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'table/:id',
     component: TableComponent,
     pathMatch: 'full',
     canActivate: [AuthGuard]
@@ -30,7 +37,7 @@ const routes: Routes = [
     component: WinnerComponent,
     canActivate: [AuthGuard]
   },
-  { path: '', redirectTo: '/table', pathMatch: 'full' }
+  { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 
 @NgModule({

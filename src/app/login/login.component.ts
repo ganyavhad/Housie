@@ -169,7 +169,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     let user = localStorage.getItem('user')
     if (user) {
-      this.router.navigate(['/table']);
+      this.router.navigate(['/home']);
     }
   }
   guestLogin() {
@@ -177,7 +177,7 @@ export class LoginComponent implements OnInit {
       (res: any) => {
         console.log(res);
         localStorage.setItem('user', JSON.stringify(res));
-        this.router.navigate(['/table']);
+        this.router.navigate(['/home']);
       },
       (err) => {
         console.log(err);

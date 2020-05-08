@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { SocketioService } from '../socketio.service';
 import { ToastController } from '@ionic/angular';
@@ -12,15 +12,17 @@ import { ToastController } from '@ionic/angular';
 })
 export class TableComponent implements OnInit {
   form: FormGroup
-  type: String
-  roomCreated: Boolean
-  roomId: Number
-  roomJoined: Boolean
+  roomId = <any>Number
   players = []
   roomData = {}
-  player = <any>{}
+  user = <any>{}
+  creator = <any>{};
   constructor(
-    public apiService: ApiService, private router: Router, private socketService: SocketioService, public toastController: ToastController
+    public apiService: ApiService,
+    private router: Router,
+    private socketService: SocketioService,
+    public toastController: ToastController,
+    private route: ActivatedRoute
   ) { }
 
   async presentToast(message) {
@@ -33,32 +35,18 @@ export class TableComponent implements OnInit {
     toast.present();
   }
   ngOnInit() {
+    this.roomId = this.route.snapshot.paramMap.get('id');
+    this.getRoomBeforeStart(this.roomId)
     this.players = []
-    this.player = JSON.parse(localStorage.getItem('user'));
-    this.players.push(this.player)
-    this.type = 'Create'
-    this.roomJoined = false
+    this.user = JSON.parse(localStorage.getItem('user'));
+    console.log(this.user)
     this.socketService.setupSocketConnection();
-  }
-  select(type) {
-    this.type = type
-    console.log(type)
-  }
-  createRoom(max) {
-    this.apiService.createRoom(max).subscribe(
-      (res: any) => {
-        this.roomCreated = true
-        this.roomData = res
-        this.socketService.socket.on('table_join_' + res.roomId, (member) => {
-          console.log(member)
-          this.players.push(member)
-        })
-      },
-      (err) => {
-        this.presentToast(err.error);
-        console.log(err);
-      }
-    );
+    this.socketService.socket.on('table_join_' + this.roomId, (member) => {
+      this.players.push(member)
+    })
+    this.socketService.socket.on('game_start_' + this.roomId, (data) => {
+      this.router.navigate(['/inside-table', this.roomId])
+    })
   }
   startGame(roomData) {
     this.apiService.startGame(roomData).subscribe(
@@ -72,19 +60,15 @@ export class TableComponent implements OnInit {
       }
     );
   }
-  joinRoom(roomId) {
-    this.apiService.joinRoom({ roomId: roomId }).subscribe(
+  getRoomBeforeStart(roomId) {
+    this.apiService.getRoomBeforeStart(roomId).subscribe(
       (res: any) => {
-        this.roomJoined = true
-        this.players = res.players
         this.roomData = res
-        this.socketService.socket.on('game_start_' + roomId, (data) => {
-          this.router.navigate(['/inside-table', roomId])
-        })
+        this.creator = res.creator
+        this.players = res.players
       },
       (err) => {
-        this.presentToast(err.error.message);
-        console.log(err);
+        console.log("error", err);
       }
     );
   }

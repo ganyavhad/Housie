@@ -15,14 +15,15 @@ import { AuthService } from './auth.service';
 import { AuthGuardService } from './auth-gaurd.service';
 import { LoginComponent } from './login/login.component';
 import { InsideTableComponent } from './inside-table/inside-table.component';
+import { HomeComponent } from './home/home.component';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { WinnerComponent } from './winner/winner.component';
 import { Facebook } from '@ionic-native/facebook/ngx';
 
 
 @NgModule({
-  declarations: [AppComponent, TableComponent, LoginComponent, InsideTableComponent, WinnerComponent],
+  declarations: [AppComponent, TableComponent, LoginComponent, InsideTableComponent, WinnerComponent, HomeComponent],
   entryComponents: [],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule, FormsModule],
   providers: [

@@ -1,0 +1,65 @@
+<ion-tab-bar slot="top">
+  <ion-tab-button [ngClass]="{active:type=='Create'}" (click)="select('Create')" tab="Create">
+    <ion-icon name="Create"></ion-icon>
+    <ion-label>Create Room</ion-label>
+  </ion-tab-button>
+  <ion-tab-button [ngClass]="{active:type=='Join'}" (click)="select('Join')" tab="Join">
+    <ion-icon name="person-circle"></ion-icon>
+    <ion-label>Join Room</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>
+
+<ion-content>
+  <div *ngIf="type == 'Join'">
+    <form class="form">
+      <ion-list lines="full" class="ion-no-margin ion-no-padding">
+        <ion-item>
+          <ion-input required type="number" [(ngModel)]="roomId" name="roomId" placeholder="Enter Room Id">
+          </ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button expand="block" (click)="joinRoom(roomId)">Join Room</ion-button>
+    </form>
+    <!-- <ion-list *ngIf="roomJoined" lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item>
+        <div class="pull-left">
+          <strong><label>Room Id</label> : <span>{{roomData.roomId}}</span></strong>
+        </div>
+        <div class="joined">
+          <strong><label>Players Joined</label> : <span>{{players.length}}</span></strong>
+        </div>
+      </ion-item>
+      <ion-item *ngFor="let player of players">
+        {{player.name}}
+      </ion-item>
+      <strong><label>Game will be start soon</label></strong>
+    </ion-list> -->
+  </div>
+  <div *ngIf="type == 'Create'">
+    <form class="form">
+      <ion-list lines="full" class="ion-no-margin ion-no-padding">
+        <ion-item>
+          <ion-input required type="number" [(ngModel)]="maxPlayer" name="maxPlayer" placeholder="Max players">
+          </ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button expand="block" (click)="createRoom(maxPlayer)">Create Room</ion-button>
+    </form>
+    <!-- <ion-list *ngIf="roomCreated" lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item>
+        <div class="pull-left">
+          <strong><label>Room Id</label> : <span>{{roomData.roomId}}</span></strong>
+        </div>
+        <div class="joined">
+          <strong><label>Players Joined</label> : <span>{{players.length}}</span></strong>
+        </div>
+      </ion-item>
+      <ion-item *ngFor="let player of players">
+        {{player.name}}
+      </ion-item>
+    </ion-list> -->
+    <!-- <ion-button expand="block" *ngIf="roomCreated &&players && players.length>=1" (click)="startGame(roomData)">Start
+      Game
+    </ion-button> -->
+  </div>
+</ion-content>

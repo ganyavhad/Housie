@@ -38,6 +38,9 @@ export class ApiService {
   getRoom(roomId) {
     return this.httpClient.get(environment.serverUrl + '/room/getRoom/' + roomId);
   }
+  getRoomBeforeStart(roomId) {
+    return this.httpClient.get(environment.serverUrl + '/room/getRoomBeforeStart/' + roomId);
+  }
   getRoomForWinner(roomId) {
     return this.httpClient.get(environment.serverUrl + '/room/getRoomForWinner/' + roomId);
   }
