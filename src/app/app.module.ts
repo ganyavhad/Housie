@@ -20,6 +20,7 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { WinnerComponent } from './winner/winner.component';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { EventEmitterService } from './event-emitter.service';
 
 
 @NgModule({
@@ -29,7 +30,10 @@ import { Facebook } from '@ionic-native/facebook/ngx';
   providers: [
     StatusBar,
     SplashScreen,
-    SocketioService, AuthService, AuthGuardService,
+    SocketioService,
+    AuthService,
+    AuthGuardService,
+    EventEmitterService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Facebook
   ],

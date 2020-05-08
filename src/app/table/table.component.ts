@@ -39,7 +39,6 @@ export class TableComponent implements OnInit {
     this.getRoomBeforeStart(this.roomId)
     this.players = []
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user)
     this.socketService.setupSocketConnection();
     this.socketService.socket.on('table_join_' + this.roomId, (member) => {
       this.players.push(member)

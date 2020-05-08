@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { EventEmitterService } from '../event-emitter.service';
 
 @Component({
   selector: 'app-login',
@@ -153,7 +154,7 @@ export class LoginComponent implements OnInit {
       }
     ]
   }
-  constructor(public apiService: ApiService, private router: Router, private fb: Facebook) {
+  constructor(private eventEmitterService: EventEmitterService, public apiService: ApiService, private router: Router, private fb: Facebook) {
     fb.getLoginStatus()
       .then(res => {
         console.log(res.status);
@@ -169,14 +170,19 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     let user = localStorage.getItem('user')
     if (user) {
+      let userId = JSON.parse(user)._id
       this.router.navigate(['/home']);
     }
+  }
+  loginSuccess(user) {
+    this.eventEmitterService.onLoginCalled(user);
   }
   guestLogin() {
     this.apiService.guestLogin().subscribe(
       (res: any) => {
         console.log(res);
         localStorage.setItem('user', JSON.stringify(res));
+        this.loginSuccess(res)
         this.router.navigate(['/home']);
       },
       (err) => {
@@ -209,6 +215,7 @@ export class LoginComponent implements OnInit {
     this.apiService.facebookLogin(data).subscribe(
       (res: any) => {
         localStorage.setItem('user', JSON.stringify(res));
+        this.loginSuccess(res)
         this.router.navigate(['/table']);
       },
       (err) => {

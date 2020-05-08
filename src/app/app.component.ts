@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ApiService } from './api.service';
 import { SocketioService } from './socketio.service';
+import { EventEmitterService } from './event-emitter.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,9 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public apiService: ApiService,
-    private socketService: SocketioService
+    private socketService: SocketioService,
+    private eventEmitterService: EventEmitterService
+
   ) {
     this.initializeApp();
   }
@@ -38,8 +41,16 @@ export class AppComponent {
         })
         this.getPlayerDetail({ _id: this.player._id })
       }
+      if (this.eventEmitterService.subsVar == undefined) {
+        this.eventEmitterService.subsVar = this.eventEmitterService.ivokeUserData.subscribe((user: any) => {
+          console.log("User", user)
+          this.balance = user.balance
+          this.player = user
+        });
+      }
     });
   }
+
   getPlayerDetail(data) {
     this.apiService.getPlayerDetail(data).subscribe(
       (res: any) => {
