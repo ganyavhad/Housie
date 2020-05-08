@@ -22,7 +22,7 @@ import { WinnerComponent } from './winner/winner.component';
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { EventEmitterService } from './event-emitter.service';
 
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx'
 @NgModule({
   declarations: [AppComponent, TableComponent, LoginComponent, InsideTableComponent, WinnerComponent, HomeComponent],
   entryComponents: [],
@@ -35,7 +35,8 @@ import { EventEmitterService } from './event-emitter.service';
     AuthGuardService,
     EventEmitterService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    Facebook
+    Facebook,
+    SocialSharing
   ],
   bootstrap: [AppComponent]
 })

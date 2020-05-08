@@ -33,4 +33,7 @@
   <ion-button expand="block" [routerLink]="['/inside-table/', roomData.roomId]" routerDirection="forward"
     *ngIf="roomData.gameStatus=='Start'">Go To The Game
   </ion-button>
+  <ion-button expand="block" (click)="shareWithWhatsup()">
+    Share with whatsup
+  </ion-button>
 </ion-content>

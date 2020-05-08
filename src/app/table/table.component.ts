@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { SocketioService } from '../socketio.service';
 import { ToastController } from '@ionic/angular';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-table',
@@ -22,7 +23,8 @@ export class TableComponent implements OnInit {
     private router: Router,
     private socketService: SocketioService,
     public toastController: ToastController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private socialSharing: SocialSharing
   ) { }
 
   async presentToast(message) {
@@ -70,5 +72,13 @@ export class TableComponent implements OnInit {
         console.log("error", err);
       }
     );
+  }
+
+  shareWithWhatsup() {
+    this.socialSharing
+      .shareViaWhatsApp(`Start housie and go to join room and enter Room id "${this.roomId}". Enjoy playing with friends!`, null, null)
+      .catch(err => {
+        console.log(err)
+      });
   }
 }
